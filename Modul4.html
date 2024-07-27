@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quadrat steuern</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        #square {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+                background-image: url('https://png.pngtree.com/png-vector/20220711/ourmid/pngtree-eyeball-of-toy-googly-eyes-illustration-png-image_5878337.png');
+            background-size: cover;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="square"></div>
+
+    <script>
+        const square = document.getElementById('square');
+        let topPosition = window.innerHeight / 2 - 25;
+        let leftPosition = window.innerWidth / 2 - 25;
+
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
+
+            switch (key) {
+                case 'ArrowUp':
+                    if (topPosition > 0) {
+                        topPosition -= 10;
+                        square.style.top = topPosition + 'px';
+                    }
+                    break;
+                case 'ArrowDown':
+                    if (topPosition < window.innerHeight - 50) {
+                        topPosition += 10;
+                        square.style.top = topPosition + 'px';
+                    }
+                    break;
+                case 'ArrowLeft':
+                    if (leftPosition > 0) {
+                        leftPosition -= 10;
+                        square.style.left = leftPosition + 'px';
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (leftPosition < window.innerWidth - 50) {
+                        leftPosition += 10;
+                        square.style.left = leftPosition + 'px';
+                    }
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quadrat steuern und Punkte sammeln</title>
+    <style>
+        body {
+              font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            background-image: url('./Assets/background.jpg'); /* Lokaler Pfad zum Beispielhintergrundbild */
+            background-size: cover;
+        }
+        #square {
+            width: 150px;
+            height: 150px;
+            background-image: url('https://png.pngtree.com/png-vector/20220711/ourmid/pngtree-eyeball-of-toy-googly-eyes-illustration-png-image_5878337.png');
+            background-size: cover;
+            position: absolute;
+            top: 50%;
+            background-color: blue;
+            border-radius: 100%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .point {
+            width: 60px;
+            height: 60px;
+            background-color: red;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="square"></div>
+
+    <script>
+        const square = document.getElementById('square');
+        let topPosition = window.innerHeight / 2 - 25;
+        let leftPosition = window.innerWidth / 2 - 25;
+        let pointsCollected = 0;
+
+        function createPoint() {
+            const point = document.createElement('div');
+            point.className = 'point';
+            point.style.left = Math.random() * (window.innerWidth - 20) + 'px';
+            point.style.top = Math.random() * (window.innerHeight - 20) + 'px';
+            document.body.appendChild(point);
+        }
+
+        function createTree() {
+            const tree = document.createElement('div');
+            tree.className = 'tree';
+            tree.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+            tree.style.top = Math.random() * (window.innerHeight - 70) + 'px';
+            document.body.appendChild(tree);
+        }
+
+        function checkCollision() {
+            const points = document.querySelectorAll('.point');
+            points.forEach(point => {
+                const rect1 = square.getBoundingClientRect();
+                const rect2 = point.getBoundingClientRect();
+                if (
+                    rect1.left < rect2.left + rect2.width &&
+                    rect1.left + rect1.width > rect2.left &&
+                    rect1.top < rect2.top + rect2.height &&
+                    rect1.top + rect1.height > rect2.top
+                ) {
+                    point.remove();
+                    pointsCollected++;
+                    console.log('Punkte gesammelt: ' + pointsCollected);
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
+            switch (key) {
+                case 'ArrowUp':
+                    if (topPosition > 0) {
+                        topPosition -= 10;
+                        square.style.top = topPosition + 'px';
+                    }
+                    break;
+                case 'ArrowDown':
+                    if (topPosition < window.innerHeight - 50) {
+                        topPosition += 10;
+                        square.style.top = topPosition + 'px';
+                    }
+                    break;
+                case 'ArrowLeft':
+                    if (leftPosition > 0) {
+                        leftPosition -= 10;
+                        square.style.left = leftPosition + 'px';
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (leftPosition < window.innerWidth - 50) {
+                        leftPosition += 10;
+                        square.style.left = leftPosition + 'px';
+                    }
+                    break;
+            }
+            checkCollision();
+        });
+
+        // Initial points creation
+        for (let i = 0; i < 10; i++) {
+            createPoint();
+        }
+
+        // Initial trees creation
+        for (let i = 0; i < 5; i++) {
+            createTree();
+        }
+    </script>
+</body>
+</html>
